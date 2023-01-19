@@ -3,7 +3,7 @@ const AddTaskFromTelegram = (task) => {
   const new_Task = new TaskModel(task);
   new_Task.save();
   console.log(new_Task);
-  return `Task Added! With id: "${new_Task._id}" (please save id ,you can delete your task by using this id, use /remove for delete task) `;
+  return `Task Added! With id: "${new_Task._id}" (please save id ,you can delete your task by using this id, use /remove for delete task or you can visit Trell board /open_my_trello_board) `;
 };
 const AddTask = async (req, res) => {
   const { task_title, task_description, task_status, user_id } = req.body;
@@ -33,7 +33,7 @@ const RemoveTaskFromTelegram = (user_id, TaskId) => {
     _id: TaskId,
     user_id: user_id,
   });
-  return `Task Deleted!with id: ${TaskId}`;
+  return `Task Deleted!with id: ${TaskId} or you can visit Trell board /open_my_trello_board`;
 };
 
 const GetTask = async (req, res) => {
