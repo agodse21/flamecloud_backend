@@ -25,8 +25,7 @@ bot.startWebhook("/webhook", null, 5000);
 bot.command("start", (ctx) => {
   ctx.reply("Welcome! Please use the /user command to authenticate.");
 });
-//flamecloud_denoBot  5860527655:AAGz8lS_yAApBhroEWdtasra5-eS2onMJ7c
-// AmolTetrisBot 5807067744:AAFzDVnPcc05ivogyE9QMHAemnF7kBzek3s
+
 bot.command("user", (ctx) => {
   if (ctx.message) {
     let user = {
