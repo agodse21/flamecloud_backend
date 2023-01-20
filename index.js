@@ -27,7 +27,8 @@ bot.command("start", (ctx) => {
     ctx.from.id,
     `Welcome! Please refer below commands for better understanding!
     * /start-(for run the bot on telegram)
-    * /user-(for authenticate)/add-(for Adding task)
+    * /user-(for authenticate)
+    * /add-(for Adding task)
     * /remove-(for remove task)
     * /getmytask-(for get all task)
     * /open_my_trello_board-(for open trello board)`);
