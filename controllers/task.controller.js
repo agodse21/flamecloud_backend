@@ -39,9 +39,13 @@ const RemoveTaskFromTelegram = (user_id, TaskId) => {
 const GetTask = async (req, res) => {
   const { id } = req.params;
   const { status } = req.query;
-
-  const task = await TaskModel.find({ user_id: id, status: status });
-  res.send(task);
+  if (status) {
+    const task = await TaskModel.find({ user_id: id, status: status });
+    res.send(task);
+  } else {
+    const task = await TaskModel.find({ user_id: id });
+    res.send(task);
+  }
 };
 const GetTaskTelegram = async (user_id) => {
   const task = await TaskModel.find({ user_id: user_id });
