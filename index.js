@@ -25,7 +25,12 @@ bot.startWebhook("/webhook", null, 5000);
 bot.command("start", (ctx) => {
   bot.telegram.sendMessage(
     ctx.from.id,
-    `Welcome! Please refer below commands for  better understanding!<h2>/start-(for run the bot on telegram)/user-(for authenticate)/add-(for Adding task)/remove-(for remove task)/getmytask-(for get all task)/open_my_trello_board-(for open trello board)`);
+    `Welcome! Please refer below commands for better understanding!
+    * /start-(for run the bot on telegram)
+    * /user-(for authenticate)/add-(for Adding task)
+    * /remove-(for remove task)
+    * /getmytask-(for get all task)
+    * /open_my_trello_board-(for open trello board)`);
 });
 
 bot.command("user", (ctx) => {
