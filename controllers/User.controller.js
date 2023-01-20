@@ -29,28 +29,18 @@ const SignUp = async (req, res) => {
   }
 };
 const Login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await UserModel.findOne({ email });
+  const { username, id } = req.body;
+  let user = {
+    name: username,
+    telgram_user_id: id,
+  };
+  const new_user = new UserModel(user);
+  await new_user.save();
 
-  if (user) {
-    const hashed_pass = user.password;
-    const user_id = user._id;
-    bcrypt.compare(password, hashed_pass, function (err, result) {
-      if (err) {
-        res.send({ msg: "Something went wrong try after sometime" });
-      }
-      if (result) {
-        const token = jwt.sign(
-          { user_id: user_id, email: email },
-          process.env.SECRET_KEY
-        );
-        res.send({ msg: "Login succesfull", token });
-      } else {
-        res.send({ msg: "Login Failed" });
-      }
-    });
+  if (new_user) {
+    res.send({ msg: "Login Successfull!", user: new_user });
   } else {
-    res.send({ msg: "user not found" });
+    res.send({ msg: "Login Failed" });
   }
 };
 
