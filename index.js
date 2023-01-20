@@ -1,19 +1,17 @@
 const { Telegraf } = require("telegraf");
 const express = require("express");
 const { connection } = require("./config/db");
-const axios = require("axios");
 require("dotenv").config();
 const cors = require("cors");
 const { TaskRouter } = require("./routes/task.route");
 const { TaskController } = require("./controllers/task.controller");
 const { UserController } = require("./controllers/User.controller");
-const { SaveTempUser } = require("./middleware/TempUser");
 const { UserRouter } = require("./routes/user.route");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const app = express();
 app.use(express.json());
 app.use(cors());
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 7080;
 
 app.get("/", (req, res) => {
   res.send({ msg: "home" });
@@ -22,7 +20,7 @@ app.get("/", (req, res) => {
 app.use("/task", TaskRouter);
 app.use("/user", UserRouter);
 
-bot.startWebhook("/webhook", null, 5000);
+bot.startWebhook("/webhook", null, 6000);
 
 bot.command("start", (ctx) => {
   bot.telegram.sendMessage(
@@ -93,25 +91,45 @@ bot.command("open_my_trello_board", (ctx) => {
 bot.use(async (ctx) => {
   if (ctx.message.text.includes("addTask")) {
     const taskArr = ctx.message.text.split("_");
-
     const task_title = taskArr[1];
     const task_description = taskArr[2];
     const status = taskArr[3];
     const user_id = ctx.message.from.id;
-
-    ctx.reply(
-      TaskController.AddTaskFromTelegram({
-        task_title,
-        task_description,
-        status,
-        user_id,
-      })
-    );
+    if (task_title && task_description && status) {
+      if (
+        status.includes("pending") ||
+        status.includes("doing") ||
+        status.includes("done")
+      ) {
+        ctx.reply(
+          TaskController.AddTaskFromTelegram({
+            task_title,
+            task_description,
+            status,
+            user_id,
+          })
+        );
+      } else {
+        ctx.reply(
+          `Please provide task status correctly! 
+          for ex:1).addTask_cycling_i want to learn cycle_pending
+          2).addTask_cycling_i want to learn cycle_doing
+          3).addTask_cycling_i want to learn cycle_done`
+        );
+      }
+    } else {
+      ctx.reply(
+        "Please provide all fields! for ex:addTask_cycling_i want to learn cycle_pending"
+      );
+    }
   } else if (ctx.message.text.includes("remove_TaskId")) {
     const TaskId = ctx.message.text.split(":");
     const user_id = ctx.message.from.id;
-    // console.log(TaskId);
-    ctx.reply(TaskController.RemoveTaskFromTelegram(user_id, TaskId[1]));
+    if (TaskId) {
+      ctx.reply(TaskController.RemoveTaskFromTelegram(user_id, TaskId[1]));
+    } else {
+      ctx.reply("Please provide all fields! for ex:remove_TaskId:12325524");
+    }
   } else {
     ctx.reply("Please Provide correct command!");
   }

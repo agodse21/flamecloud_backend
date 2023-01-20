@@ -29,11 +29,16 @@ const RemoveTask = async (req, res) => {
   }
 };
 const RemoveTaskFromTelegram = (user_id, TaskId) => {
+  const task=TaskModel.findOne({ _id: TaskId})
   const del = TaskModel.findOneAndDelete({
     _id: TaskId,
     user_id: user_id,
   });
-  return `Task Deleted!with id: ${TaskId} or you can visit Trell board /open_my_trello_board`;
+  if (del) {
+    return `Task Deleted!with id: ${TaskId} or you can visit Trell board /open_my_trello_board`;
+  } else {
+    return `Please check details once! or you can visit Trell board /open_my_trello_board`;
+  }
 };
 
 const GetTask = async (req, res) => {

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const SignUp = async (req, res) => {
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+ 
   const { name, email, password } = req.body;
   const isUser = await UserModel.findOne({ email });
   if (isUser) {
