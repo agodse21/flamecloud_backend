@@ -23,7 +23,11 @@ app.use("/task", TaskRouter);
 bot.startWebhook("/webhook", null, 5000);
 
 bot.command("start", (ctx) => {
-  ctx.reply("Welcome! Please use the /user command to authenticate.");
+  bot.telegram.sendMessage(
+    ctx.from.id,
+    `<h1>Welcome! Please refer below commands for  better understanding!</h1><br /> <h2>/start-(for run the bot on telegram)</h2><br /><h2>/user-(for authenticate)</h2><br /><h2>/add-(for Adding task)</h2><br /><h2>/remove-(for remove task)</h2><br /><h2>/getmytask-(for get all task)</h2><br /><h2>/open_my_trello_board-(for open trello board)"</h2><br />`,
+    { parse_mode: "HTML" }
+  );
 });
 
 bot.command("user", (ctx) => {
