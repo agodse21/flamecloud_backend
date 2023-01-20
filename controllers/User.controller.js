@@ -30,17 +30,24 @@ const SignUp = async (req, res) => {
 };
 const Login = async (req, res) => {
   const { username, id } = req.body;
-  let user = {
-    name: username,
-    telgram_user_id: id,
-  };
-  const new_user = new UserModel(user);
-  await new_user.save();
 
-  if (new_user) {
-    res.send({ msg: "Login Successfull!", user: new_user });
+  let isUser = await UserModel.find({ telgram_user_id: id });
+  if (isUser.length > 0) {
+    isUser.map((ele) => {
+      res.send({ msg: "Login Successfull!", user: ele });
+    });
   } else {
-    res.send({ msg: "Login Failed" });
+    let user = {
+      name: username,
+      telgram_user_id: id,
+    };
+    const new_user = new UserModel(user);
+    await new_user.save();
+    if (new_user) {
+      res.send({ msg: "Login Successfull!", user: new_user });
+    } else {
+      res.send({ msg: "Login Failed" });
+    }
   }
 };
 
