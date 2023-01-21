@@ -33,7 +33,7 @@ const Login = async (req, res) => {
   console.log(isUser[0]);
   if (isUser.length > 0) {
     res.send({ msg: "Login Successfull!", user: isUser[0] });
-  } else if (isUser == undefined) {
+  } else  {
     let user = {
       name: username,
       telgram_user_id: id,
