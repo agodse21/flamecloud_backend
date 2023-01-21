@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const SignUp = async (req, res) => {
- 
   const { name, email, password } = req.body;
   const isUser = await UserModel.findOne({ email });
   if (isUser) {
@@ -32,10 +31,11 @@ const Login = async (req, res) => {
   const { username, id } = req.body;
 
   let isUser = await UserModel.find({ telgram_user_id: id });
+  console.log(isUser[0]);
   if (isUser.length > 0) {
-    isUser.map((ele) => {
-      res.send({ msg: "Login Successfull!", user: ele });
-    });
+  
+    res.send({ msg: "Login Successfull!", user: isUser[0] });
+   
   } else {
     let user = {
       name: username,
