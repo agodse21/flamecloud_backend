@@ -29,14 +29,11 @@ const SignUp = async (req, res) => {
 };
 const Login = async (req, res) => {
   const { username, id } = req.body;
-
   let isUser = await UserModel.find({ telgram_user_id: id });
   console.log(isUser[0]);
   if (isUser.length > 0) {
-  
     res.send({ msg: "Login Successfull!", user: isUser[0] });
-   
-  } else {
+  } else if (isUser == undefined) {
     let user = {
       name: username,
       telgram_user_id: id,
